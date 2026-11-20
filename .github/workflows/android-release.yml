@@ -42,6 +42,10 @@ jobs:
         if: steps.previous.outputs.exists != 'true'
         working-directory: source
         run: git merge-base --is-ancestor HEAD origin/main
+      - name: Test release publication and recovery
+        if: steps.previous.outputs.exists != 'true'
+        working-directory: source
+        run: node --test tests/releases.mjs
       - uses: actions/setup-java@v4
         if: steps.previous.outputs.exists != 'true'
         with:
