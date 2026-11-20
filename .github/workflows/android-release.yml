@@ -2,7 +2,7 @@ name: Build and publish Haven APK
 on:
   push:
     branches: [main]
-    paths: ["release-request.json", ".github/workflows/android-release.yml"]
+    paths: ["release-request.json"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -47,8 +47,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
         if: steps.previous.outputs.exists != 'true'
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+          log-accepted-android-sdk-licenses: false
       - name: Restore the existing preview signing identity
         if: steps.previous.outputs.exists != 'true'
         env:
